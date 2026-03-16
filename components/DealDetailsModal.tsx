@@ -97,6 +97,7 @@ interface Task {
   agentTaskType?: string;
   generatedReason?: string;
   dependency?: string;
+  collectionUrl?: string;
 }
 
 interface Document {
@@ -139,46 +140,70 @@ const stageTasksData: Record<string, Task[]> = {
     {
       id: 'p1',
       name: 'Initial client outreach',
-      dueDate: '2025-10-15',
+      dueDate: '2025-10-14',
       status: 'Completed',
       assignedTo: 'Sarah Chen',
     },
     {
       id: 'p2',
       name: 'Qualify client needs',
-      dueDate: '2025-10-18',
+      dueDate: '2025-10-17',
       status: 'Completed',
       assignedTo: 'Sarah Chen',
     },
     {
       id: 'p3',
-      name: 'Create client profile',
-      dueDate: '2025-10-20',
+      name: 'Draft requirement from brief',
+      dueDate: '2025-10-18',
       status: 'Completed',
-      assignedTo: 'Michael Torres',
+      assignedTo: 'Requirements Intake Agent',
+      taskType: 'agent',
+      agentState: 'completed',
+      agentTaskType: 'Draft requirement',
+      executionTimestamp: 'Oct 19, 2:14 PM',
+      agentOutput: 'Requirement draft created with 3 missing details flagged for AT&T Downtown Office Space.',
     },
   ],
   'Site Tours Scheduled': [
     {
       id: 't1',
       name: 'Schedule initial tour',
-      dueDate: '2025-10-25',
+      dueDate: '2025-10-24',
       status: 'Completed',
       assignedTo: 'Sarah Chen',
+    },
+    {
+      id: 't-agent-1',
+      name: 'Build collection for requirement',
+      dueDate: '2025-10-25',
+      status: 'Completed',
+      assignedTo: 'Market Sourcing Agent',
+      taskType: 'agent',
+      agentState: 'completed',
+      agentTaskType: 'Build collection',
+      executionTimestamp: 'Oct 26, 3:42 PM',
+      agentOutput: 'Collection created for this requirement. 12 candidate spaces identified. Chicago Private Offices 12 spaces Open Collection.',
+      collectionUrl: 'https://liquidspace.com/collections/manhattan-private-offices-abc123',
+    },
+    {
+      id: 't-agent-2',
+      name: 'Assess collection fit',
+      dueDate: '2025-10-26',
+      status: 'Completed',
+      assignedTo: 'Collection Assessment Agent',
+      taskType: 'agent',
+      agentState: 'completed',
+      agentTaskType: 'Assess collection',
+      executionTimestamp: 'Oct 27, 10:18 AM',
+      agentOutput: 'Collection assessed against requirement. Strong matches: 2 Partial matches: 4 Weak matches: 6 Top recommendation: Hudson Yards Tower, 4,800 sq ft (96% match).',
+      collectionUrl: 'https://liquidspace.com/collections/manhattan-private-offices-abc123',
     },
     {
       id: 't2',
       name: 'Conduct site walkthrough',
-      dueDate: '2025-10-28',
+      dueDate: '2025-10-27',
       status: 'Completed',
       assignedTo: 'Michael Torres',
-    },
-    {
-      id: 't3',
-      name: 'Gather client feedback',
-      dueDate: '2025-10-30',
-      status: 'Completed',
-      assignedTo: 'Sarah Chen',
     },
   ],
   'Proposal Sent': [
@@ -371,42 +396,30 @@ const sampleDocuments: Document[] = [
     id: '1',
     name: 'Proposal_TelTech_NYC.pdf',
     uploadedBy: 'Sarah Chen',
-    uploadedDate: '2025-11-08',
+    uploadedDate: '2025-11-07',
     size: '2.4 MB',
   },
   {
     id: '2',
     name: 'Floor_Plans.pdf',
     uploadedBy: 'Sarah Chen',
-    uploadedDate: '2025-11-05',
+    uploadedDate: '2025-11-04',
     size: '5.1 MB',
   },
   {
     id: '3',
     name: 'Pricing_Sheet.xlsx',
     uploadedBy: 'Michael Torres',
-    uploadedDate: '2025-11-03',
+    uploadedDate: '2025-11-02',
     size: '156 KB',
   },
   {
     id: '4-agent',
-    name: 'Lease_Addendum_Draft_v1.docx',
-    uploadedBy: 'Agent',
-    uploadedDate: '2025-11-12',
-    size: '87 KB',
-    draftedBy: 'agent',
-    reviewState: 'pending_review',
-    version: 1,
-  },
-  {
-    id: '5-agent',
     name: 'Market_Comp_Analysis_Hudson_Yards.pdf',
     uploadedBy: 'Agent',
-    uploadedDate: '2025-11-11',
+    uploadedDate: '2025-11-10',
     size: '1.2 MB',
     draftedBy: 'agent',
-    reviewState: 'approved',
-    version: 1,
   },
 ];
 
@@ -1163,7 +1176,7 @@ export function DealDetailsModal({ deal, isOpen, onClose }: DealDetailsModalProp
                     Notes
                   </Label>
                   <Textarea
-                    placeholder="Add notes about this deal..."
+                    placeholder="Add notes about this requirement..."
                     value={newNote}
                     onChange={(e) => setNewNote(e.target.value)}
                     className="min-h-24 border-gray-300"
@@ -1328,91 +1341,6 @@ export function DealDetailsModal({ deal, isOpen, onClose }: DealDetailsModalProp
                   </CardContent>
                 </Card>
 
-                {/* Next Step Summary */}
-                <Card className="bg-white border-l-4" style={{ borderColor: '#E5E7EB', borderLeftColor: '#FFA500' }}>
-                  <CardContent className="p-4">
-                    <div className="flex items-start gap-3">
-                      <div className="p-2 rounded-lg" style={{ backgroundColor: '#FFF3E0' }}>
-                        <AlertCircle className="h-5 w-5" style={{ color: '#FFA500' }} />
-                      </div>
-                      <div className="flex-1">
-                        <div style={{ fontSize: '14px', fontWeight: 600, color: '#374151', fontFamily: 'Inter, sans-serif', marginBottom: '4px' }}>
-                          Next Step
-                        </div>
-                        <div style={{ fontSize: '14px', color: '#374151', fontFamily: 'Inter, sans-serif', marginBottom: '8px' }}>
-                          Send proposal to client
-                        </div>
-                        <div className="flex items-center gap-4" style={{ fontSize: '12px', color: '#6B7280', fontFamily: 'Inter, sans-serif' }}>
-                          <div className="flex items-center gap-1">
-                            <Calendar className="h-4 w-4" />
-                            <span>Due Nov 15</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <User className="h-4 w-4" />
-                            <span>Assigned to Sarah Chen</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Stage Progress Indicator - Only for Current Stage */}
-                {showAgentPanel && !dismissedInsights.includes('stage-readiness') && (
-                  <Card className="bg-gray-50/50 border" style={{ borderColor: '#E5E7EB' }}>
-                    <CardContent className="p-3">
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-start gap-2 flex-1">
-                          <div className="p-1 rounded" style={{ backgroundColor: '#9CA3AF' }}>
-                            <Target className="h-3 w-3 text-white" />
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
-                              <span style={{ fontSize: '11px', fontWeight: 600, color: '#6B7280', fontFamily: 'Inter, sans-serif' }}>
-                                Stage Completion Signals
-                              </span>
-                              <Badge className="bg-gray-100 text-gray-600 border-0" style={{ fontSize: '9px', fontWeight: 500 }}>
-                                Work-Based Readiness
-                              </Badge>
-                            </div>
-                            <div className="grid grid-cols-2 gap-2 mt-2">
-                              <div className="flex items-center gap-1.5">
-                                <CheckCircle2 className="h-3 w-3 text-gray-500" />
-                                <span style={{ fontSize: '10px', color: '#6B7280', fontFamily: 'Inter, sans-serif' }}>
-                                  Proposal accepted
-                                </span>
-                              </div>
-                              <div className="flex items-center gap-1.5">
-                                <CheckCircle2 className="h-3 w-3 text-gray-500" />
-                                <span style={{ fontSize: '10px', color: '#6B7280', fontFamily: 'Inter, sans-serif' }}>
-                                  Budget confirmed
-                                </span>
-                              </div>
-                              <div className="flex items-center gap-1.5">
-                                <AlertCircle className="h-3 w-3 text-orange-400" />
-                                <span style={{ fontSize: '10px', color: '#6B7280', fontFamily: 'Inter, sans-serif' }}>
-                                  Legal review pending
-                                </span>
-                              </div>
-                              <div className="flex items-center gap-1.5">
-                                <CheckCircle2 className="h-3 w-3 text-gray-500" />
-                                <span style={{ fontSize: '10px', color: '#6B7280', fontFamily: 'Inter, sans-serif' }}>
-                                  Stakeholders aligned
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => setDismissedInsights([...dismissedInsights, 'stage-readiness'])}
-                          className="text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0 ml-2"
-                        >
-                          <X className="h-3.5 w-3.5" />
-                        </button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                )}
 
                 {/* All Stage Tasks Sections */}
                 {[
@@ -1449,11 +1377,6 @@ export function DealDetailsModal({ deal, isOpen, onClose }: DealDetailsModalProp
                             {isCompleted && (
                               <Badge className="bg-green-600 text-white px-2 py-0.5" style={{ fontSize: '10px', fontWeight: 500 }}>
                                 Completed
-                              </Badge>
-                            )}
-                            {isCurrent && (
-                              <Badge style={{ backgroundColor: '#005B94', color: 'white', fontSize: '10px', fontWeight: 500 }} className="px-2 py-0.5">
-                                Current
                               </Badge>
                             )}
                           </div>
@@ -1665,60 +1588,35 @@ export function DealDetailsModal({ deal, isOpen, onClose }: DealDetailsModalProp
                                         </span>
                                       )}
                                     </div>
-                                    <div style={{ fontSize: '12px', color: '#374151', fontFamily: 'Inter, sans-serif', lineHeight: '1.6', marginBottom: '12px' }}>
+                                    <div style={{ fontSize: '12px', color: '#374151', fontFamily: 'Inter, sans-serif', lineHeight: '1.6', marginBottom: '8px' }}>
                                       {task.agentOutput}
                                     </div>
-                                    
-                                    {/* Actions based on state */}
-                                    {task.agentState === 'needs_review' && (
-                                      <div className="flex items-center gap-2">
-                                        <Button
-                                          size="sm"
-                                          className="text-white h-8 px-3"
-                                          style={{ backgroundColor: '#28A745', fontSize: '12px', fontWeight: 500, fontFamily: 'Inter, sans-serif' }}
-                                        >
-                                          <CheckCircle2 className="h-3.5 w-3.5 mr-1" />
-                                          Approve
-                                        </Button>
-                                        <Button
-                                          variant="outline"
-                                          size="sm"
-                                          className="h-8 px-3"
-                                          style={{ fontSize: '12px', fontWeight: 500, fontFamily: 'Inter, sans-serif' }}
-                                        >
-                                          <Eye className="h-3.5 w-3.5 mr-1" />
-                                          View Full Output
-                                        </Button>
-                                        <Button
-                                          variant="outline"
-                                          size="sm"
-                                          className="h-8 px-3 text-orange-600 border-orange-300 hover:bg-orange-50"
-                                          style={{ fontSize: '12px', fontWeight: 500, fontFamily: 'Inter, sans-serif' }}
-                                        >
-                                          <Edit className="h-3.5 w-3.5 mr-1" />
-                                          Request Revisions
-                                        </Button>
-                                      </div>
+
+                                    {/* Collection link */}
+                                    {task.collectionUrl && (
+                                      <a
+                                        href={task.collectionUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-1 hover:underline"
+                                        style={{ fontSize: '12px', color: '#005B94', fontFamily: 'Inter, sans-serif', fontWeight: 500 }}
+                                      >
+                                        <Eye className="h-3 w-3" />
+                                        View Collection
+                                      </a>
                                     )}
-                                    
-                                    {task.agentState === 'completed' && (
-                                      <div className="flex items-center gap-2">
-                                        <Button
-                                          variant="outline"
-                                          size="sm"
-                                          className="h-8 px-3"
-                                          style={{ fontSize: '12px', fontWeight: 500, fontFamily: 'Inter, sans-serif' }}
-                                        >
-                                          <Eye className="h-3.5 w-3.5 mr-1" />
-                                          View Full Output
-                                        </Button>
-                                        <div className="flex items-center gap-1.5 ml-2">
-                                          <CheckCircle2 className="h-4 w-4" style={{ color: '#28A745' }} />
-                                          <span style={{ fontSize: '11px', color: '#28A745', fontWeight: 500, fontFamily: 'Inter, sans-serif' }}>
-                                            Approved
-                                          </span>
-                                        </div>
-                                      </div>
+
+                                    {/* View Full Output link for non-collection tasks */}
+                                    {!task.collectionUrl && (task.agentState === 'completed' || task.agentState === 'needs_review') && (
+                                      <a
+                                        href="#"
+                                        onClick={(e) => e.preventDefault()}
+                                        className="flex items-center gap-1 hover:underline"
+                                        style={{ fontSize: '12px', color: '#005B94', fontFamily: 'Inter, sans-serif', fontWeight: 500 }}
+                                      >
+                                        <Eye className="h-3 w-3" />
+                                        View Full Output
+                                      </a>
                                     )}
                                   </div>
                                 </div>
@@ -1749,43 +1647,6 @@ export function DealDetailsModal({ deal, isOpen, onClose }: DealDetailsModalProp
                           </div>
                         </div>
                         
-                        {/* Stage Advancement Control - Only show for current stage */}
-                        {isCurrent && (
-                          <div className="mt-4 pt-4 border-t-2" style={{ borderColor: '#005B94' }}>
-                            <div className="bg-blue-50/50 rounded-lg p-4 border border-blue-200">
-                              <div className="flex items-start justify-between gap-4">
-                                <div className="flex-1">
-                                  <div className="flex items-center gap-2 mb-2">
-                                    <Target className="h-4 w-4" style={{ color: '#005B94' }} />
-                                    <div style={{ fontSize: '14px', fontWeight: 600, color: '#374151', fontFamily: 'Inter, sans-serif' }}>
-                                      Stage Advancement
-                                    </div>
-                                  </div>
-                                  <div style={{ fontSize: '12px', color: '#6B7280', fontFamily: 'Inter, sans-serif', lineHeight: '1.5' }}>
-                                    {stageTasksList.filter(t => t.status === 'Completed').length === stageTasksList.length ? (
-                                      <>All work complete. You can advance to the next stage.</>
-                                    ) : (
-                                      <>{stageTasksList.length - stageTasksList.filter(t => t.status === 'Completed').length} task(s) remaining (human or agent work). Complete all tasks before advancing.</>
-                                    )}
-                                  </div>
-                                </div>
-                                <Button
-                                  className="text-white"
-                                  style={{ 
-                                    backgroundColor: stageTasksList.filter(t => t.status === 'Completed').length === stageTasksList.length ? '#005B94' : '#9CA3AF',
-                                    fontSize: '13px', 
-                                    fontWeight: 600,
-                                    fontFamily: 'Inter, sans-serif'
-                                  }}
-                                  disabled={stageTasksList.filter(t => t.status === 'Completed').length !== stageTasksList.length}
-                                >
-                                  <CheckCircle2 className="h-4 w-4 mr-1" />
-                                  Advance Stage
-                                </Button>
-                              </div>
-                            </div>
-                          </div>
-                        )}
                       </CardContent>
                     </Card>
                   );
@@ -2123,187 +1984,32 @@ export function DealDetailsModal({ deal, isOpen, onClose }: DealDetailsModalProp
                   Upload Document
                 </Button>
               </div>
-              <div className="space-y-3">
+              <div className="space-y-1">
                 {sampleDocuments.map((doc) => (
-                  <Card key={doc.id} className="bg-white border hover:shadow-md transition-shadow" style={{ 
-                    borderColor: doc.draftedBy === 'agent' && doc.reviewState === 'pending_review' ? '#A78BFA' : '#E5E7EB',
-                    borderWidth: doc.draftedBy === 'agent' && doc.reviewState === 'pending_review' ? '2px' : '1px'
-                  }}>
-                    <CardContent className="p-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3 flex-1">
-                          <div className="p-2 rounded-lg" style={{ backgroundColor: '#F8F9FA' }}>
-                            <FileText className="h-5 w-5" style={{ color: '#005B94' }} />
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
-                              <div style={{ fontSize: '16px', fontWeight: 500, color: '#374151', fontFamily: 'Inter, sans-serif' }}>
-                                {doc.name}
-                              </div>
-                              {doc.draftedBy === 'agent' && (
-                                <Badge className="bg-gray-100 text-gray-600 border-0" style={{ fontSize: '10px', fontWeight: 500 }}>
-                                  Drafted by Agent {doc.version && `v${doc.version}`}
-                                </Badge>
-                              )}
-                              {doc.reviewState === 'pending_review' && (
-                                <Badge className="bg-amber-100 text-amber-700 border-0" style={{ fontSize: '10px', fontWeight: 500 }}>
-                                  Pending Review
-                                </Badge>
-                              )}
-                              {doc.reviewState === 'approved' && (
-                                <Badge className="bg-green-100 text-green-700 border-0" style={{ fontSize: '10px', fontWeight: 500 }}>
-                                  Approved
-                                </Badge>
-                              )}
-                              {doc.reviewState === 'needs_revision' && (
-                                <Badge className="bg-orange-100 text-orange-700 border-0" style={{ fontSize: '10px', fontWeight: 500 }}>
-                                  Needs Revision
-                                </Badge>
-                              )}
-                            </div>
-                            <div style={{ fontSize: '14px', color: '#6B7280', fontFamily: 'Inter, sans-serif' }}>
-                              {doc.size} • {doc.draftedBy === 'agent' ? 'Generated' : 'Uploaded'} by {doc.uploadedBy} on {new Date(doc.uploadedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          {doc.draftedBy === 'agent' && doc.reviewState === 'pending_review' ? (
-                            <>
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                className="border-green-300 hover:bg-green-50"
-                              >
-                                <CheckCircle2 className="h-4 w-4 mr-1" style={{ color: '#28A745' }} />
-                                <span style={{ color: '#28A745' }}>Approve</span>
-                              </Button>
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                className="border-orange-300 hover:bg-orange-50"
-                              >
-                                <Edit className="h-4 w-4 mr-1" style={{ color: '#FFA500' }} />
-                                <span style={{ color: '#FFA500' }}>Request Edits</span>
-                              </Button>
-                            </>
-                          ) : (
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="border-gray-300"
-                            >
-                              <Eye className="h-4 w-4 mr-1" />
-                              View
-                            </Button>
-                          )}
-                        </div>
+                  <div
+                    key={doc.id}
+                    className="flex items-center gap-3 py-3 px-1 border-b"
+                    style={{ borderColor: '#E5E7EB' }}
+                  >
+                    <div className="p-1.5 rounded" style={{ backgroundColor: '#F3F4F6' }}>
+                      <FileText className="h-4 w-4" style={{ color: '#005B94' }} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div style={{ fontSize: '14px', fontWeight: 500, color: '#374151', fontFamily: 'Inter, sans-serif' }}>
+                        {doc.name}
                       </div>
-                      {doc.draftedBy === 'agent' && doc.reviewState === 'pending_review' && (
-                        <div className="mt-3 pt-3 border-t" style={{ borderColor: '#E5E7EB' }}>
-                          <div style={{ fontSize: '12px', color: '#6B7280', fontFamily: 'Inter, sans-serif', lineHeight: '1.5' }}>
-                            <strong style={{ color: '#374151' }}>Agent Work Summary:</strong> Document drafted based on Tel Tech requirements (5,000 sq ft, 24-month term with 12-month extension option). Includes standard flex lease provisions, insurance requirements, and buildout timeline.
-                          </div>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
+                      <div style={{ fontSize: '12px', color: '#6B7280', fontFamily: 'Inter, sans-serif', marginTop: '2px' }}>
+                        {doc.size} • {doc.draftedBy === 'agent' ? 'Generated by Agent' : `Uploaded by ${doc.uploadedBy}`} • {new Date(doc.uploadedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                      </div>
+                    </div>
+                    <Button variant="outline" size="sm" className="border-gray-300 flex-shrink-0">
+                      <Eye className="h-4 w-4 mr-1" />
+                      View
+                    </Button>
+                  </div>
                 ))}
               </div>
 
-              {/* AI Document Insights */}
-              {showAgentPanel && !dismissedInsights.includes('document-insights') && (
-                <Card className="mt-4 bg-gray-50 border" style={{ borderColor: '#E5E7EB' }}>
-                  <CardContent className="p-4">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex items-center gap-2">
-                        <div className="p-1.5 rounded-lg" style={{ backgroundColor: '#005B94' }}>
-                          <FileText className="h-4 w-4 text-white" />
-                        </div>
-                        <span style={{ fontSize: '14px', fontWeight: 600, color: '#374151', fontFamily: 'Inter, sans-serif' }}>
-                          AI Document Assistant
-                        </span>
-                      </div>
-                      <button
-                        onClick={() => setDismissedInsights([...dismissedInsights, 'document-insights'])}
-                        className="text-gray-400 hover:text-gray-600 transition-colors"
-                      >
-                        <X className="h-4 w-4" />
-                      </button>
-                    </div>
-
-                    <div className="space-y-2">
-                      {/* Missing Documents Alert */}
-                      <div className="bg-white rounded-lg p-3 border" style={{ borderColor: '#E5E7EB' }}>
-                        <div className="flex items-start gap-2 mb-2">
-                          <AlertTriangle className="h-4 w-4 mt-0.5 flex-shrink-0" style={{ color: '#F97316' }} />
-                          <div className="flex-1">
-                            <span style={{ fontSize: '12px', fontWeight: 600, color: '#374151', fontFamily: 'Inter, sans-serif', display: 'block', marginBottom: '4px' }}>
-                              Missing Required Documents
-                            </span>
-                            <ul style={{ fontSize: '12px', color: '#6B7280', fontFamily: 'Inter, sans-serif', lineHeight: '1.5', paddingLeft: '16px' }}>
-                              <li>Financial verification (typically required at Negotiation stage)</li>
-                              <li>Insurance certificate (needed before lease execution)</li>
-                            </ul>
-                          </div>
-                        </div>
-                        <button
-                          className="text-xs font-medium hover:underline mt-1"
-                          style={{ color: '#005B94', fontFamily: 'Inter, sans-serif' }}
-                        >
-                          Request from client →
-                        </button>
-                      </div>
-
-                      {/* Draft Generation Suggestion */}
-                      <div className="bg-white rounded-lg p-3 border" style={{ borderColor: '#E5E7EB' }}>
-                        <div className="flex items-start gap-2">
-                          <Sparkles className="h-4 w-4 mt-0.5 flex-shrink-0" style={{ color: '#005B94' }} />
-                          <div className="flex-1">
-                            <span style={{ fontSize: '12px', fontWeight: 600, color: '#374151', fontFamily: 'Inter, sans-serif', display: 'block', marginBottom: '4px' }}>
-                              Auto-Draft Available
-                            </span>
-                            <p style={{ fontSize: '12px', color: '#6B7280', fontFamily: 'Inter, sans-serif', lineHeight: '1.4', marginBottom: '6px' }}>
-                              I can prepare a lease addendum draft based on Tel Tech's requirements (5,000 sq ft, 24-month term with expansion option).
-                            </p>
-                            <div className="flex items-center gap-2">
-                              <button
-                                className="px-2 py-1 rounded text-xs font-medium hover:bg-blue-50 transition-colors"
-                                style={{ color: '#005B94', fontFamily: 'Inter, sans-serif' }}
-                              >
-                                Generate draft
-                              </button>
-                              <button
-                                className="px-2 py-1 rounded text-xs font-medium hover:bg-gray-100 transition-colors text-gray-600"
-                                style={{ fontFamily: 'Inter, sans-serif' }}
-                              >
-                                Not now
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Document Organization Tip */}
-                      <div className="bg-white rounded-lg p-3 border" style={{ borderColor: '#E5E7EB' }}>
-                        <div className="flex items-start gap-2">
-                          <Lightbulb className="h-4 w-4 mt-0.5 flex-shrink-0" style={{ color: '#6B7280' }} />
-                          <div>
-                            <p style={{ fontSize: '12px', color: '#6B7280', fontFamily: 'Inter, sans-serif', lineHeight: '1.4' }}>
-                              <strong>Tip:</strong> Create a "Final Docs" folder before execution stage to keep closing documents organized.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mt-3 pt-2 border-t flex items-center justify-between" style={{ borderColor: '#E5E7EB' }}>
-                      <span style={{ fontSize: '11px', color: '#6B7280', fontFamily: 'Inter, sans-serif' }}>
-                        Scanned 8 documents
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
             </TabsContent>
 
             {/* Messaging Tab */}

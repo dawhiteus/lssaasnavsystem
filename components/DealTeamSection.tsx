@@ -74,48 +74,30 @@ const sampleTeamMembers: TeamMember[] = [
   },
   {
     id: '5',
-    name: 'RequirementsIntakeAgent',
-    role: 'Requirements Agent',
+    name: 'Requirements Intake Agent',
+    role: 'Structure requirement',
     organization: 'LiquidSpace AI',
     email: 'requirements.agent@ai.liquidspace.com',
     type: 'Agent',
-    description: 'Front of funnel. Structures client needs, validates completeness, flags gaps.',
+    description: 'Convert natural language descriptions, uploaded briefs, or reference spaces into structured requirement drafts.',
   },
   {
     id: '6',
-    name: 'MarketSourcingAgent',
-    role: 'Market Sourcing Agent',
+    name: 'Market Sourcing Agent',
+    role: 'Build collection',
     organization: 'LiquidSpace AI',
     email: 'sourcing.agent@ai.liquidspace.com',
     type: 'Agent',
-    description: 'Owns search, collection building, comparables, structured evaluation.',
+    description: 'Searches the LiquidSpace marketplace and builds curated collections of candidate spaces matching requirement criteria.',
   },
   {
-    id: '7',
-    name: 'TransactionCoordinatorAgent',
-    role: 'Transaction Coordinator Agent',
+    id: '10',
+    name: 'Collection Assessment Agent',
+    role: 'Assess collection',
     organization: 'LiquidSpace AI',
-    email: 'coordinator.agent@ai.liquidspace.com',
+    email: 'assessment.agent@ai.liquidspace.com',
     type: 'Agent',
-    description: 'Orchestrates tasks across stages. Tracks progress, nudges, routes documents.',
-  },
-  {
-    id: '8',
-    name: 'RiskComplianceAgent',
-    role: 'Risk & Compliance Agent',
-    organization: 'LiquidSpace AI',
-    email: 'risk.agent@ai.liquidspace.com',
-    type: 'Agent',
-    description: 'Flags contract risk, insurance gaps, SLA deviations.',
-  },
-  {
-    id: '9',
-    name: 'FinanceOpsAgent',
-    role: 'Finance Ops Agent',
-    organization: 'LiquidSpace AI',
-    email: 'finance.agent@ai.liquidspace.com',
-    type: 'Agent',
-    description: 'Budget validation, pricing analysis, concession benchmarking.',
+    description: 'Evaluates collections against requirement criteria. Scores fit, flags gaps, and surfaces top recommendations.',
   },
 ];
 
@@ -177,11 +159,9 @@ export function DealTeamSection({ dealId }: DealTeamSectionProps) {
               <SelectItem value="Client Contact">Client Contact</SelectItem>
               <SelectItem value="Legal Counsel">Legal Counsel</SelectItem>
               <SelectItem value="Deal Coordinator">Deal Coordinator</SelectItem>
-              <SelectItem value="Requirements Agent">Requirements Agent</SelectItem>
-              <SelectItem value="Market Sourcing Agent">Market Sourcing Agent</SelectItem>
-              <SelectItem value="Transaction Coordinator Agent">Transaction Coordinator Agent</SelectItem>
-              <SelectItem value="Risk & Compliance Agent">Risk & Compliance Agent</SelectItem>
-              <SelectItem value="Finance Ops Agent">Finance Ops Agent</SelectItem>
+              <SelectItem value="Structure requirement">Structure requirement</SelectItem>
+              <SelectItem value="Build collection">Build collection</SelectItem>
+              <SelectItem value="Assess collection">Assess collection</SelectItem>
             </SelectContent>
           </Select>
 

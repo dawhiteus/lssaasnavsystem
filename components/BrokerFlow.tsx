@@ -7,10 +7,9 @@ import {
   ChevronDown,
   Eye,
   TrendingUp,
-  TrendingDown,
   FileText,
-  AlertCircle,
-  Clock,
+  CircleDot,
+  Zap,
 } from 'lucide-react';
 import { DealDetailsModal } from './DealDetailsModal';
 import { CreateEditDealModal } from './CreateEditDealModal';
@@ -173,7 +172,7 @@ const METRICS = [
     label: 'PIPELINE VALUE',
     value: '$10.75M',
     valueColor: '#10B981',
-    sub: 'Unsigned requirements in progress',
+    sub: 'Total estimated value of active requirements',
     Icon: TrendingUp,
     iconColor: '#10B981',
   },
@@ -181,33 +180,25 @@ const METRICS = [
     label: 'ACTIVE REQUIREMENTS',
     value: '23',
     valueColor: '#0694A2',
-    sub: 'Moving through workflow',
+    sub: 'Number of requirements currently moving through workflow',
     Icon: FileText,
     iconColor: '#0694A2',
   },
   {
-    label: 'AT RISK',
-    value: '4',
-    valueColor: '#F59E0B',
-    sub: 'Require immediate attention',
-    Icon: AlertCircle,
-    iconColor: '#F59E0B',
+    label: 'COLLECTIONS CREATED',
+    value: '47',
+    valueColor: '#0369A1',
+    sub: 'Total collections generated for requirements',
+    Icon: CircleDot,
+    iconColor: '#0369A1',
   },
   {
-    label: 'MEDIAN CLOSE TIME',
-    value: '32 days',
+    label: 'AGENT TASKS COMPLETED',
+    value: '156',
     valueColor: '#1E3A5F',
-    sub: 'Intake to signed agreement',
-    Icon: Clock,
-    iconColor: '#3B82F6',
-  },
-  {
-    label: 'VS MARKET RATE',
-    value: '−8%',
-    valueColor: '#7C3AED',
-    sub: 'Below comparable pricing',
-    Icon: TrendingDown,
-    iconColor: '#EC4899',
+    sub: 'Total tasks executed by agents',
+    Icon: Zap,
+    iconColor: '#1E3A5F',
   },
 ];
 
@@ -368,7 +359,7 @@ export function BrokerFlow({ isAIDrawerOpen }: BrokerFlowProps) {
 
       {/* ── Metric Cards ────────────────────────────────────────────── */}
       <div style={{ padding: '24px 32px 0' }}>
-        <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(5, 1fr)' }}>
+        <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
           {METRICS.map((m) => (
             <div
               key={m.label}
