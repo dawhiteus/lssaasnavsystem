@@ -217,7 +217,6 @@ export function visibleGroups(profile: Profile, productId: string): NavGroup[] {
       locked: !pageAccessible(profile, productId, it.id),
     })),
   }));
-  if (profile.showInternal && productId === 'ops') out.push(INTERNAL_OPS_GROUP);
   return out;
 }
 
