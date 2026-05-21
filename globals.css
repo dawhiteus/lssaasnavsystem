@@ -48,6 +48,63 @@
   --sidebar-accent: #f8f9fa;
   --sidebar-accent-foreground: #374151;
   --sidebar-border: #e5e7eb;
+
+  /* ── LiquidSpace Design System v3 tokens ───────────────── */
+  --ls-50:  #e6f1f8;
+  --ls-100: #cce3f1;
+  --ls-200: #99c7e3;
+  --ls-300: #66aad5;
+  --ls-400: #338ec7;
+  --ls-500: #005b94;
+  --ls-600: #004d7d;
+  --ls-700: #003f66;
+  --ls-800: #00304f;
+  --ls-900: #002238;
+
+  --interactive:        #005b94;
+  --interactive-hover:  #004d7d;
+  --interactive-active: #003f66;
+
+  --surface-page:    #f8f9fa;
+  --surface-card:    #ffffff;
+  --surface-sidebar: #ffffff;
+
+  --text-primary:       #374151;
+  --text-muted:         #6b7280;
+  --text-disabled:      #9ca3af;
+  --text-on-dark:       #ffffff;
+  --text-on-dark-muted: rgba(255, 255, 255, 0.82);
+
+  --border-strong: #d1d5db;
+
+  --success:    #28a745;
+  --success-bg: #f0fdf4;
+  --warning:    #ffa500;
+  --warning-bg: #fffbeb;
+  --danger:     #dc3545;
+  --danger-bg:  #fff1f2;
+  --purple:     #7c3aed;
+  --purple-bg:  #f5f3ff;
+  --teal:       #00b8c4;
+  --teal-bg:    #ecfeff;
+  --slate-expired: #5a6c7d;
+
+  --r-xs:   4px;
+  --r-sm:   8px;
+  --r-md:   12px;
+  --r-lg:   14px;
+  --r-xl:   16px;
+  --r-pill: 9999px;
+
+  --shadow-focus: 0 0 0 3px rgba(0, 91, 148, 0.35);
+  --shadow-switcher-menu: 0 16px 40px rgba(15, 23, 42, 0.18), 0 2px 6px rgba(15, 23, 42, 0.06);
+
+  --t-fast:  100ms ease;
+  --t:       150ms ease;
+  --t-slow:  250ms ease;
+  --t-sidebar: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 .dark {
