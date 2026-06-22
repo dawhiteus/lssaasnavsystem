@@ -163,16 +163,18 @@ function GroupSection({
   expanded,
   onToggle,
   onSelectPage,
+  hideHeader,
 }: {
   group: NavGroup;
   activeId: string;
   expanded: boolean;
   onToggle: () => void;
   onSelectPage: (id: string) => void;
+  hideHeader?: boolean;
 }) {
   return (
     <div style={{ marginBottom: 2 }}>
-      <button
+      {!hideHeader && <button
         onClick={onToggle}
         style={{
           width: '100%',
@@ -213,8 +215,8 @@ function GroupSection({
             }}
           />
         </span>
-      </button>
-      {expanded && (
+      </button>}
+      {(hideHeader || expanded) && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           {group.items.map(it => (
             <NavItemA
@@ -299,6 +301,7 @@ export function SidebarA({ profile, productId, activeId, onSelectPage }: Sidebar
                       expanded={groupExpanded(g.id)}
                       onToggle={() => toggleGroup(g.id)}
                       onSelectPage={(id) => onSelectPage(id, product.id)}
+                      hideHeader={groups.length === 1}
                     />
                   ))
                 )}
