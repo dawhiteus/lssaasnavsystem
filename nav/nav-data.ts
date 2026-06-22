@@ -5,6 +5,7 @@ export interface NavItemDef {
   id: string;
   icon: string;
   label: string;
+  url?: string;
   badge?: number | string;
   locked?: boolean;
 }
@@ -87,17 +88,18 @@ export const IA: Record<string, Product> = {
         id: 'la',
         label: 'License Administrator',
         items: [
-          { id: 'license-tracker', icon: 'file',         label: 'License Tracker' },
-          { id: 'payments',        icon: 'credit-card',  label: 'Payments' },
-          { id: 'funding',         icon: 'dollar-sign',  label: 'Funding Sources' },
-          { id: 'tasks',           icon: 'check-square', label: 'Tasks' },
+          { id: 'license-tracker', icon: 'file',         label: 'License Tracker', url: 'https://transaction-manager-git-main-david-4453s-projects.vercel.app/license/tracker' },
+          { id: 'payments',        icon: 'credit-card',  label: 'Payments',        url: 'https://transaction-manager-git-main-david-4453s-projects.vercel.app/license/payments' },
+          { id: 'funding',         icon: 'dollar-sign',  label: 'Funding Sources', url: 'https://transaction-manager-git-main-david-4453s-projects.vercel.app/license/funding' },
+          { id: 'tasks',           icon: 'check-square', label: 'Tasks',           url: 'https://transaction-manager-git-main-david-4453s-projects.vercel.app/license/tasks' },
         ],
       },
       {
         id: 'tm',
         label: 'Transaction Manager',
         items: [
-          { id: 'requirements',    icon: 'book-open',    label: 'Requirements' },
+          { id: 'transactions', icon: 'book-open',    label: 'Transactions', url: 'https://transaction-manager-git-main-david-4453s-projects.vercel.app/transactions/list' },
+          { id: 'tm-tasks',     icon: 'check-square', label: 'Tasks',        url: 'https://transaction-manager-git-main-david-4453s-projects.vercel.app/transactions/tasks' },
         ],
       },
     ],
@@ -115,9 +117,9 @@ export const IA: Record<string, Product> = {
         id: 'tools',
         label: 'Workplace Strategist',
         items: [
-          { id: 'portfolio-compiler', icon: 'layers',    label: 'Portfolio Compiler' },
+          { id: 'portfolio-compiler', icon: 'layers',    label: 'Portfolio Compiler', url: 'https://workplacestrategist-internal.vercel.app/portfolio-compiler' },
           { id: 'flex-modeler',       icon: 'sliders',   label: 'Flex Modeler' },
-          { id: 'hub-locator',        icon: 'map',       label: 'Hub Locator' },
+          { id: 'hub-locator',        icon: 'map',       label: 'Hub Locator',        url: 'https://workplacestrategist-internal.vercel.app/hub-locator' },
         ],
       },
     ],

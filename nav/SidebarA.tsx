@@ -101,9 +101,14 @@ function NavItemA({ item, active, onClick }: { item: NavItemDef; active: boolean
   const color = active ? '#fff' : locked ? T.textDisabled : T.text;
   const iconColor = active ? '#fff' : locked ? T.textDisabled : T.textMuted;
 
+  const handleClick = locked ? undefined : () => {
+    if (item.url) window.open(item.url, '_blank');
+    onClick();
+  };
+
   return (
     <div
-      onClick={locked ? undefined : onClick}
+      onClick={handleClick}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
