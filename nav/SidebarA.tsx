@@ -60,7 +60,7 @@ function PillarHeader({
         borderBottom: `1px solid ${T.border}`,
         border: 'none',
         borderBottom: `1px solid ${T.border}`,
-        fontFamily: 'inherit',
+        fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
         transition: 'background 100ms ease',
       }}
     >
@@ -193,7 +193,7 @@ function GroupSection({
           textTransform: 'uppercase',
           color: T.textMuted,
           cursor: 'pointer',
-          fontFamily: 'inherit',
+          fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
         }}
       >
         <span>{group.label}</span>
@@ -268,6 +268,10 @@ export function SidebarA({ profile, productId, activeId, onSelectPage }: Sidebar
       overflowY: 'auto',
       fontSize: 14,
       lineHeight: 1.5,
+      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+      fontWeight: 400,
+      letterSpacing: 'normal',
+      color: T.text,
     }}>
       {Object.values(IA).map(product => {
         const accessible = !!(profile.products[product.id]?.unlocked);
