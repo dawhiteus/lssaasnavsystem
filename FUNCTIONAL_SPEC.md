@@ -124,6 +124,17 @@ Access profiles (in `nav-data.ts`) declare which products and items a user can r
 
 Badges: numeric → red pill (`#dc3545`); text (e.g. "NEW") → teal pill (`#00b8c4`); both white 9–10px/600–700, fully rounded.
 
+### 5.7 Standalone links (bottom of nav)
+
+Single destinations that sit **outside** the pillar/group/item hierarchy, pinned to the bottom of the sidebar. Defined in `nav-data.ts` as `STANDALONE_LINKS` — not part of any product or access profile.
+
+- Rendered after all pillars, separated by a 1px `#e5e7eb` top divider, pushed to the bottom of the sidebar column (`margin-top: auto`; falls in-flow after content when the nav overflows and scrolls).
+- Presented as a **single item row** (icon + label, 13px), never a section header — a standalone link has no children and must not imply a group.
+- A trailing `arrow-up-right` glyph (`#9ca3af`) marks it as leaving the app.
+- **Always opens in a new tab** (`window.open(url, '_blank')`), regardless of hostname — these are external, customer-facing destinations, so the admin session is preserved in the current tab. This is the one deliberate exception to the §5.4 hostname rule.
+
+Current standalone link: **Marketplace** → the LiquidSpace enterprise marketplace (`liquidspace.com/search?…`), prefiltered to the member's city.
+
 ---
 
 ## 6. Page Headers
@@ -209,6 +220,12 @@ Pillar order: Workplace Strategist, then Workplace Operations.
 | | Tasks | — | `/license/tasks` |
 | Transaction Manager | Transactions | — | `/transactions/list` |
 | | Tasks | — | `/transactions/tasks` |
+
+**Standalone links** (bottom of nav, outside pillars; see §5.7) — open in a new tab
+
+| Item | URL |
+|---|---|
+| Marketplace | `liquidspace.com/search?…` (LiquidSpace enterprise marketplace, prefiltered to member city) |
 
 ---
 
